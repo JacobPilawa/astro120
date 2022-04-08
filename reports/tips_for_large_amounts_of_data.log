@@ -22,10 +22,10 @@ assign()
 
 [0;31m---------------------------------------------------------------------------[0m
 [0;31mNameError[0m                                 Traceback (most recent call last)
-[0;32m/var/folders/8b/kdzzptnn501_n9y8q82g0c1w0000gn/T/ipykernel_6899/1722755945.py[0m in [0;36m<module>[0;34m[0m
+[0;32m/var/folders/8b/kdzzptnn501_n9y8q82g0c1w0000gn/T/ipykernel_7729/1722755945.py[0m in [0;36m<module>[0;34m[0m
 [0;32m----> 1[0;31m [0massign[0m[0;34m([0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
 [0m
-[0;32m/var/folders/8b/kdzzptnn501_n9y8q82g0c1w0000gn/T/ipykernel_6899/2834634623.py[0m in [0;36massign[0;34m()[0m
+[0;32m/var/folders/8b/kdzzptnn501_n9y8q82g0c1w0000gn/T/ipykernel_7729/2834634623.py[0m in [0;36massign[0;34m()[0m
 [1;32m      3[0m [0;34m[0m[0m
 [1;32m      4[0m [0;34m[0m[0m
 [0;32m----> 5[0;31m     [0mspec[0m [0;34m=[0m [0mnp[0m[0;34m.[0m[0mzeros[0m[0;34m([0m[0;34m([0m[0mlen[0m[0;34m([0m[0mfiles[0m[0;34m)[0m[0;34m,[0m[0mlen[0m[0;34m([0m[0ms[0m[0;34m)[0m[0;34m)[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
