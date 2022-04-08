@@ -25,12 +25,39 @@ mpl.rcParams['figure.dpi'] = 150
 # 
 # Assuming that both y and x are vectors with $n$ elements, we can rewrite this equation in matrix form:
 # 
-# \begin{array}{c}
-# {\left[\begin{array}{c}Y_{1} \\ Y_{2} \\ \vdots \\ Y_{n}\end{array}\right]=\left[\begin{array}{c}\beta_{0}+\beta_{1} X_{1} \\ \beta_{0}+\beta_{1} X_{2} \\ \vdots \\ \beta_{0}+\beta_{1} X_{n}\end{array}\right]} \\ \underbrace{\left[\begin{array}{c}Y_{1} \\ Y_{2} \\ \vdots \\ Y_{n}\end{array}\right]}_{Y_{n \times 1}}=\underbrace{\left[\begin{array}{cc}1 & X_{1} \\ 1 & X_{2} \\ \vdots & \\ 1 & X_{n}\end{array}\right]}_{X_{n \times 2}} \underbrace{\left[\begin{array}{c}\beta_{0} \\ \beta_{1}\end{array}\right]}_{\beta_{2 \times 1}}
-# \end{array}
+# $$
+# \begin{bmatrix}
+# Y_1 \\
+# Y_2 \\
+# \vdots \\
+# Y_n 
+# \end{bmatrix}  = \begin{bmatrix}
+# \beta_0 + \beta_1 X_1 \\
+# \beta_0 + \beta_1 X_2 \\
+# \vdots \\
+# \beta_0 + \beta_1 X_n 
+# \end{bmatrix}
+# $$
 # 
 # $$
-# Y=X\beta
+# \underbrace{\begin{bmatrix}
+# Y_1 \\
+# Y_2 \\
+# \vdots \\
+# Y_n 
+# \end{bmatrix}}_{Y_{n\times1}}  = \underbrace{\begin{bmatrix}
+# 1 & X_1 \\
+# 1 & X_2 \\
+# \vdots & \vdots \\
+# 1 & X_n 
+# \end{bmatrix}}_{X_{n\times2}} \underbrace{\begin{bmatrix}
+# \beta_0 \\
+# \beta_1 
+# \end{bmatrix}}_{\beta_{2\times1}}
+# $$
+# 
+# $$
+# Y = X \beta
 # $$
 
 # Here, I'll simulate some data with $n=25$:
