@@ -1,0 +1,787 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Reading FITS Files &#8212; Astronomy 120 Notebooks</title>
+    
+  <link href="../_static/css/theme.css" rel="stylesheet">
+  <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
+    <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Tips for Large Amounts of Data" href="tips_for_large_amounts_of_data.html" />
+    <link rel="prev" title="Maximum Likelihood" href="maxmimum_likelihood_worked_example.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="../_static/logo.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Astronomy 120 Notebooks</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../intro.html">
+   Astronomy 120 Notebookes
+  </a>
+ </li>
+</ul>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="good_and_bad_plotting_practices.html">
+   Good and Bad Plotting Practices
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="good_and_bad_coding_practices.html">
+   Good and Bad Coding Practices
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="loops_and_parallelism.html">
+   Loops and Parallelism
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="matrix_operations_with_numpy.html">
+   Matrix Operations with Numpy
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="fitting_a_line_to_data.html">
+   Fitting a Line to Data
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="maxmimum_likelihood_worked_example.html">
+   Maximum Likelihood
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Reading FITS Files
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="tips_for_large_amounts_of_data.html">
+   Tips for Large Amounts of Data
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="publication_graphics_and_errorbars.html">
+   Publication Quality Plots and Errorbars
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="making_rgb_images.html">
+   Making RGB Images
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="example_shifting.html">
+   Shifting Images
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/pages/reading_fits_files.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/executablebooks/jupyter-book"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fpages/reading_fits_files.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/executablebooks/jupyter-book/master?urlpath=tree/docs/pages/reading_fits_files.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#">
+   Reading FITS Files
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#reading-a-fits-file">
+   Reading a FITS File
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#raw-image-plot">
+   Raw Image Plot
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#adding-some-fancy-visuals">
+   Adding Some Fancy Visuals :)
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#image-stretching-and-scaling">
+   Image Stretching and Scaling
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#an-alternate-way-to-read-files-that-i-really-like-and-you-might-see">
+   An alternate way to read files that I really like, and you might see:
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Reading FITS Files</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#">
+   Reading FITS Files
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#reading-a-fits-file">
+   Reading a FITS File
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#raw-image-plot">
+   Raw Image Plot
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#adding-some-fancy-visuals">
+   Adding Some Fancy Visuals :)
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#image-stretching-and-scaling">
+   Image Stretching and Scaling
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#an-alternate-way-to-read-files-that-i-really-like-and-you-might-see">
+   An alternate way to read files that I really like, and you might see:
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            
+              <div>
+                
+  <div class="tex2jax_ignore mathjax_ignore section" id="reading-fits-files">
+<h1>Reading FITS Files<a class="headerlink" href="#reading-fits-files" title="Permalink to this headline">¶</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">astropy.io</span> <span class="kn">import</span> <span class="n">fits</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">matplotlib</span> <span class="k">as</span> <span class="nn">mpl</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;figure.dpi&#39;</span><span class="p">]</span><span class="o">=</span><span class="mi">150</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="tex2jax_ignore mathjax_ignore section" id="reading-a-fits-file">
+<h1>Reading a FITS File<a class="headerlink" href="#reading-a-fits-file" title="Permalink to this headline">¶</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">file_name</span> <span class="o">=</span> <span class="s1">&#39;d165_os_bs_ff_bp_crj.fits&#39;</span>
+
+<span class="c1"># Let&#39;s open the fits file and call it HDUL (Header Data Unit List, which is some historical name I guess)</span>
+<span class="n">hdul</span> <span class="o">=</span> <span class="n">fits</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Sometimes there are multiple FITS files in a single FITS file. </span>
+<span class="c1"># This one only has a single file, though, which appears to be a single image.</span>
+<span class="n">hdul</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+
+<span class="c1"># we can print the header </span>
+<span class="c1"># it&#39;s better to use &quot;display&quot; which prints things nicely :)</span>
+<span class="n">header</span> <span class="o">=</span> <span class="n">hdul</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">header</span> 
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Filename: d165_os_bs_ff_bp_crj.fits
+No.    Name      Ver    Type      Cards   Dimensions   Format
+  0  PRIMARY       1 PrimaryHDU     158   (1024, 1024)   float32   
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">display</span><span class="p">(</span><span class="n">header</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>SIMPLE  =                    T / conforms to FITS standard                      
+BITPIX  =                  -32 / array data type                                
+NAXIS   =                    2 / number of array dimensions                     
+NAXIS1  =                 1024                                                  
+NAXIS2  =                 1024                                                  
+CRVAL1U =                 2048 / COLUMN ORIGIN                                  
+CRVAL2U =                 2048 / ROW ORIGIN                                     
+CDELT1U =                   -2 / COLUMN CHANGE PER PIXEL                        
+CDELT2U =                   -2 / ROW CHANGE PER PIXEL                           
+OBSNUM  =                  165 / OBSERVATION NUMBER                             
+IDNUM   =                    1 / IMAGE ID                                       
+UGEOM   =                    0 / UCAM READOUT GEOMETRY                          
+DGEOM   =                    0 / DESCRAMBLE GEOMETRY                            
+AMPSROW =                    1 / AMPLIFIERS PER ROW                             
+AMPSCOL =                    1 / AMPLIFIERS PER COLUMN                          
+OBSTYPE = &#39;OBJECT&#39;             / IMAGE TYPE                                     
+EXPTIME =                  180 / Exp time (not counting shutter error)          
+COMMENT    Real Value = FITS*BSCALE+BZERO                                       
+PROGRAM = &#39;NEWCAM&#39;             / New Lick Camera                                
+VERSION = &#39;nickel_direct&#39;      / Data acquisition version                       
+TSEC    =           1570855422 / CLOCK TICK - SECONDS                           
+TUSEC   =               657384 / CLOCK TICK - MICROSECONDS                      
+DATE    = &#39;2019-10-12T04:43:42.65&#39; / UT of CCD readout &amp; descramble             
+DATASEC = &#39;[1:1024,1:1024]&#39;        / IRAF/NOAO-style data section               
+COMMENT End of cards hard-coded in fits_cards                                   
+COMMENT Begin of cards from other times                                         
+CSYER2  =     0.01666669920087 / systematic error along direction of WCS axis i 
+CSYER1  =     0.01666669920087 / systematic error along direction of WCS axis i 
+CRDER2  =   5.139999848325E-05 / random error along direction of WCS axis i     
+CRDER1  =   5.139999848325E-05 / random error along direction of WCS axis i     
+CD2_2   =  -0.0001027239995892 / CTM element i_j from FITS axis j to WCS axis i 
+CD2_1   =   3.946270226152E-06 / CTM element i_j from FITS axis j to WCS axis i 
+CD1_2   =  -3.946270226152E-06 / CTM element i_j from FITS axis j to WCS axis i 
+CD1_1   =  -0.0001027239995892 / CTM element i_j from FITS axis j to WCS axis i 
+CRVAL2  =       33.02922821045 / coord value of WCS axis i at ref pixel         
+CRVAL1  =       283.3957824707 / coord value of WCS axis i at ref pixel         
+CRPIX2  =                  512 / reference pixel along FITS axis j              
+CRPIX1  =                  512 / reference pixel along FITS axis j              
+CUNIT2  = &#39;deg               &#39; / unit of WCS axis i                             
+CUNIT1  = &#39;deg               &#39; / unit of WCS axis i                             
+EQUINOX =                 2000 / date of celestial reference frame              
+RADECSYS= &#39;FK5               &#39; / reference system for celestial coordinates     
+CNAME2  = &#39;Declination       &#39; / name of WCS axis i                             
+CNAME1  = &#39;Right Ascension   &#39; / name of WCS axis i                             
+CTYPE2  = &#39;DEC--TAN          &#39; / type of WCS axis i                             
+CTYPE1  = &#39;RA---TAN          &#39; / type of WCS axis i                             
+WCSNAME = &#39;Celestial coordinates&#39; / name of WCS                                 
+CRVAL2C =                    0 / coord value of WCS axis i at ref pixel         
+CRVAL1C =                    0 / coord value of WCS axis i at ref pixel         
+CRVAL2S =       33.02922821045 / coord value of WCS axis i at ref pixel         
+CRVAL1S =       283.3957824707 / coord value of WCS axis i at ref pixel         
+CSYER2C =                    0 / systematic error along direction of WCS axis i 
+CSYER1C =                    0 / systematic error along direction of WCS axis i 
+CRDER2C =                    0 / random error along direction of WCS axis i     
+CRDER1C =                    0 / random error along direction of WCS axis i     
+CD2_2C  =                   -2 / CTM element i_j from FITS axis j to WCS axis i 
+CD2_1C  =                    0 / CTM element i_j from FITS axis j to WCS axis i 
+CD1_2C  =                    0 / CTM element i_j from FITS axis j to WCS axis i 
+CD1_1C  =                   -2 / CTM element i_j from FITS axis j to WCS axis i 
+CRPIX2C =                  0.5 / reference pixel along FITS axis j              
+CRPIX1C =                  0.5 / reference pixel along FITS axis j              
+CUNIT2C = &#39;CCDpix            &#39; / unit of WCS axis i                             
+CUNIT1C = &#39;CCDpix            &#39; / unit of WCS axis i                             
+CNAME2C = &#39;CCD Y pixel       &#39; / name of WCS axis i                             
+CNAME1C = &#39;CCD X pixel       &#39; / name of WCS axis i                             
+CTYPE2C = &#39;linear            &#39; / type of WCS axis i                             
+CTYPE1C = &#39;linear            &#39; / type of WCS axis i                             
+WCSNAMEC= &#39;CCD pixel coordinates&#39; / name of WCS                                 
+CSYER2S =     0.01666669920087 / systematic error along direction of WCS axis i 
+CSYER1S =     0.01666669920087 / systematic error along direction of WCS axis i 
+CRDER2S =   5.139999848325E-05 / random error along direction of WCS axis i     
+CRDER1S =   5.139999848325E-05 / random error along direction of WCS axis i     
+CD2_2S  =  -0.0001027239995892 / CTM element i_j from FITS axis j to WCS axis i 
+CD2_1S  =   3.946270226152E-06 / CTM element i_j from FITS axis j to WCS axis i 
+CD1_2S  =  -3.946270226152E-06 / CTM element i_j from FITS axis j to WCS axis i 
+CD1_1S  =  -0.0001027239995892 / CTM element i_j from FITS axis j to WCS axis i 
+CRPIX2S =                  512 / reference pixel along FITS axis j              
+CRPIX1S =                  512 / reference pixel along FITS axis j              
+CUNIT2S = &#39;deg               &#39; / unit of WCS axis i                             
+CUNIT1S = &#39;deg               &#39; / unit of WCS axis i                             
+EQUINOXS=                 2000 / date of celestial reference frame              
+RADESYSS= &#39;FK5               &#39; / reference system for celestial coordinates     
+CNAME2S = &#39;Declination       &#39; / name of WCS axis i                             
+CNAME1S = &#39;Right Ascension   &#39; / name of WCS axis i                             
+CTYPE2S = &#39;DEC--TAN          &#39; / type of WCS axis i                             
+CTYPE1S = &#39;RA---TAN          &#39; / type of WCS axis i                             
+WCSNAMES= &#39;Celestial coordinates&#39; / name of WCS                                 
+AIRMASS =       1.250841140747 / AIRMASS AT START OF OBSERVATION                
+OWNRNOTE= &#39;notyetset         &#39; / OWNRNOTE for archive data                      
+OWNRHINT= &#39;notyetset         &#39; / OWNRHINT for archive data                      
+HA      = &#39;03:04:52.05       &#39; / HOUR ANGLE                                     
+DEC     = &#39;33:01:45.1        &#39; / DECLINATION                                    
+RA      = &#39;18:53:35.00       &#39; / RIGHT ASCENSION                                
+DATE-BEG= &#39;2019-10-12T04:40:42.04&#39; / START OF OBSERVATION                       
+EQUINOXU=       2019.780029297 / EPOCH FOR POCO POSITION IS CURRENT DATE        
+OBSERVER= &#39;Elinor Gates, 2019 Grad Workshop&#39; / OBSERVER NAME                    
+APERNAM = &#39;Open              &#39; / APERTURE POSITION NAME                         
+INSTRUME= &#39;Nickel Direct Camera&#39;                                                
+TUB     =                    0 / TELESCOPE TUB ROTATION                         
+APERRAW =                 1250 / APERTURE RAW POSITION                          
+FILTRAW =                 2853 / FILTER RAW POSITION                            
+FILTORD =                    3 / FILTER ORDINAL POSITION                        
+APERORD =                    0 / APERTURE ORDINAL POSITION                      
+FILTNAM = &#39;R                 &#39; / FILTER POSITION NAME                           
+DATE-END= &#39;2019-10-12T04:43:42.04&#39; / END OF OBSERVATION                         
+GEOMCODE=                    0 / READOUT GEOMETRY                               
+DSENSOR = &#39;Loral 2Kx2K       &#39; / SENSOR DESCRIPTION                             
+DNAXIS2 =                 2048 / ROWS IN SENSOR                                 
+DNAXIS1 =                 2048 / COLUMNS IN SENSOR                              
+UCAMADC = &#39;4-amp QADC        &#39; / UCAM ADC BOARDS                                
+UCAMCDB = &#39;New CDB           &#39; / UCAM CDB BOARDS                                
+CAMERAID=                    2 / CAMERA ID NUMBER                               
+UCAMSPB = &#39;2 DSPB            &#39; / UCAM SPB BOARDS                                
+UCAMSOFT= &#39;4.08 052011       &#39; / UCAM SOFTWARE VERSION                          
+UCAMTIM = &#39;New Timing        &#39; / UCAM TIMING BOARDS                             
+GAIN    =                    1 / DCS GAIN INDEX                                 
+TEMPCON =                 12.5 / CONTROLLER TEMPERATURE                         
+NCSHIFT =                    0 / NUMBER OF CHARGE SHUFFLES                      
+RCSHIFT =                    0 / NUMBER OF ROWS IN EACH CHARGE SHUFFLE          
+ROVER   =                    0 / NUMBER OF OVERSCAN ROWS                        
+COVER   =                   32 / NUMBER OF OVERSCAN COLUMNS                     
+MPP     =                    1 / MPP STATE                                      
+TEMPDET =      -108.6999969482 / EXPOSURE START DETECTOR TEMPERATURE            
+TEMPDETE=                    0 / EXPOSURE END DETECTOR TEMPERATURE              
+READ-SPD=                   80 / DCS READ SPEED                                 
+ERPBIN  =                    5 / PARALLEL BINNING DURING ERASE                  
+ERASE   =                    3 / NUMBER OF ERASES                               
+PSKIP   =                    0 / CONTROLS POST-IMAGE SKIPPING                   
+CSMP    =                    1 / DCS CAP SELECTION                              
+CSELPRD =                    0 / PREREAD CLOCK SELECTION                        
+SCLEAN  =                    0 / SERIAL CLEANING CLOCK SELECTION                
+BINPRD  =                    0 / PREREAD SERIAL BINNING                         
+BINSCLN =                    0 / BINNING FOR SERIAL CLEAN                       
+PPRERD  =                    4 / PRE-IMAGE ROWS                                 
+PFREQ   =                    1 / PARALLEL CLOCK PERIOD                          
+PADDC   =                    0 / PARALLEL CLOCK CAPACITOR SELECTION             
+NSTIME  =                   32 / CONTROLS RISING TIME FOR SUBSTRATE             
+VSUBEX  =                    0 / SUBSTRATE VOLTAGE DURING EXPOSURE              
+VSUBER  =                    0 / SUBSTRATE VOLTAGE DURING ERASE                 
+NHBESP  =                   32 / BINNING FOR SPECIAL ERASE                      
+MERSP   =                    0 / CONTROLS SPECIAL ERASE MODE                    
+TCPR1   =                    4 / PRE-IMAGE SERIAL PIXELS                        
+TSPRD   =                   40 / SAMPLE TIME IN 0.1 MICROSECOND UNITS           
+TSCLEAN =                   40 / SERIAL CLEAN SAMPLE TIME                       
+SFREQ   =                    2 / SERIAL CLOCK PERIOD                            
+SADDC   =                    2 / SERIAL CLOCK CAP SELECTION                     
+REVERASE=                    0 / NUMBER OF REVERSE ERASES                       
+TCPR2   =                    4 / POST-IMAGE SERIAL PIXELS BEFORE OVERSCAN       
+OBJECT  = &#39;M57               &#39;                                                  
+CKSUMOK =                    T / cd: CHECKSUMS MATCH                            
+CAMCKSUM=                 7254 / cd: CAMERA-COMPUTED CHECKSUM                   
+SFTCKSUM=                 7254 / cd: SOFTWARE-COMPUTED CHECKSUM                 
+COMMENT End of cards from other times                                           
+HISTORY Overscan subtracted                                                     
+HISTORY Bias subtracted                                                         
+HISTORY Flat Fielded                                                            
+HISTORY Bad columns replaced                                                    
+HISTORY CR and bad pixels fixed with astroscrappy                               
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># we can treat the header as a labelled list, and get things from that list:</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">header</span><span class="p">[</span><span class="s1">&#39;OBSNUM&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>165
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># let&#39;s grab the image data since that&#39;s the only thing1</span>
+<span class="n">image</span> <span class="o">=</span> <span class="n">hdul</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">data</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="tex2jax_ignore mathjax_ignore section" id="raw-image-plot">
+<h1>Raw Image Plot<a class="headerlink" href="#raw-image-plot" title="Permalink to this headline">¶</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># let&#39;s plot the image</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">[</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">])</span>
+<span class="n">im</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">im</span><span class="p">,</span><span class="n">fraction</span><span class="o">=</span><span class="mf">0.046</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="mf">0.04</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;Counts [arb. units]&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Ring Nebula&#39;</span><span class="p">,</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/reading_fits_files_10_0.png" src="../_images/reading_fits_files_10_0.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">low</span>  <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">percentile</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span> 
+<span class="n">high</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">percentile</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="mf">99.5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="tex2jax_ignore mathjax_ignore section" id="adding-some-fancy-visuals">
+<h1>Adding Some Fancy Visuals :)<a class="headerlink" href="#adding-some-fancy-visuals" title="Permalink to this headline">¶</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># let&#39;s plot the image</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">[</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">])</span>
+<span class="n">im</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=</span><span class="n">low</span><span class="p">,</span><span class="n">vmax</span><span class="o">=</span><span class="n">high</span><span class="p">,</span><span class="n">norm</span><span class="o">=</span><span class="n">mpl</span><span class="o">.</span><span class="n">colors</span><span class="o">.</span><span class="n">LogNorm</span><span class="p">(),</span>
+          <span class="n">origin</span><span class="o">=</span><span class="s1">&#39;lower&#39;</span><span class="p">,</span><span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;magma&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">im</span><span class="p">,</span><span class="n">fraction</span><span class="o">=</span><span class="mf">0.046</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="mf">0.04</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;Counts [arb. units]&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Ring Nebula&#39;</span><span class="p">,</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/jacobpilawa/anaconda3/lib/python3.7/site-packages/ipykernel_launcher.py:4: MatplotlibDeprecationWarning: Passing parameters norm and vmin/vmax simultaneously is deprecated since 3.3 and will become an error two minor releases later. Please pass vmin/vmax directly to the norm when creating it.
+  after removing the cwd from sys.path.
+</pre></div>
+</div>
+<img alt="../_images/reading_fits_files_13_1.png" src="../_images/reading_fits_files_13_1.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># let&#39;s plot the image</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">[</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">])</span>
+<span class="n">im</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=</span><span class="n">low</span><span class="p">,</span><span class="n">vmax</span><span class="o">=</span><span class="n">high</span><span class="p">,</span><span class="n">norm</span><span class="o">=</span><span class="n">mpl</span><span class="o">.</span><span class="n">colors</span><span class="o">.</span><span class="n">LogNorm</span><span class="p">(),</span>
+          <span class="n">origin</span><span class="o">=</span><span class="s1">&#39;lower&#39;</span><span class="p">,</span><span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;magma&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">im</span><span class="p">,</span><span class="n">fraction</span><span class="o">=</span><span class="mf">0.046</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="mf">0.04</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;Counts [arb. units]&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="mi">325</span><span class="p">,</span><span class="mi">625</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mi">400</span><span class="p">,</span><span class="mi">700</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Ring Nebula&#39;</span><span class="p">,</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/jacobpilawa/anaconda3/lib/python3.7/site-packages/ipykernel_launcher.py:4: MatplotlibDeprecationWarning: Passing parameters norm and vmin/vmax simultaneously is deprecated since 3.3 and will become an error two minor releases later. Please pass vmin/vmax directly to the norm when creating it.
+  after removing the cwd from sys.path.
+</pre></div>
+</div>
+<img alt="../_images/reading_fits_files_14_1.png" src="../_images/reading_fits_files_14_1.png" />
+</div>
+</div>
+</div>
+<div class="tex2jax_ignore mathjax_ignore section" id="image-stretching-and-scaling">
+<h1>Image Stretching and Scaling<a class="headerlink" href="#image-stretching-and-scaling" title="Permalink to this headline">¶</a></h1>
+<p>See: <a class="reference external" href="https://docs.astropy.org/en/stable/visualization/normalization.html">https://docs.astropy.org/en/stable/visualization/normalization.html</a></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">astropy.visualization</span> <span class="kn">import</span> <span class="p">(</span><span class="n">ZScaleInterval</span><span class="p">,</span><span class="n">MinMaxInterval</span><span class="p">,</span> <span class="n">LogStretch</span><span class="p">,</span> <span class="n">LinearStretch</span><span class="p">,</span>
+                                   <span class="n">ImageNormalize</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create an ImageNormalize object</span>
+<span class="n">norm</span> <span class="o">=</span> <span class="n">ImageNormalize</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">interval</span><span class="o">=</span><span class="n">MinMaxInterval</span><span class="p">(),</span>
+                      <span class="n">stretch</span><span class="o">=</span><span class="n">LogStretch</span><span class="p">())</span>
+
+<span class="c1"># or equivalently using positional arguments</span>
+<span class="c1"># norm = ImageNormalize(image, MinMaxInterval(), SqrtStretch())</span>
+
+<span class="c1"># Display the image</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">im</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="s1">&#39;lower&#39;</span><span class="p">,</span> <span class="n">norm</span><span class="o">=</span><span class="n">norm</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;Greys&#39;</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">im</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.colorbar.Colorbar at 0x7fd426bf2f10&gt;
+</pre></div>
+</div>
+<img alt="../_images/reading_fits_files_17_1.png" src="../_images/reading_fits_files_17_1.png" />
+</div>
+</div>
+</div>
+<div class="tex2jax_ignore mathjax_ignore section" id="an-alternate-way-to-read-files-that-i-really-like-and-you-might-see">
+<h1>An alternate way to read files that I really like, and you might see:<a class="headerlink" href="#an-alternate-way-to-read-files-that-i-really-like-and-you-might-see" title="Permalink to this headline">¶</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">fits</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">f</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">data</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.image.AxesImage at 0x7fd426c9d250&gt;
+</pre></div>
+</div>
+<img alt="../_images/reading_fits_files_21_1.png" src="../_images/reading_fits_files_21_1.png" />
+</div>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./pages"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            
+                <!-- Previous / next buttons -->
+<div class='prev-next-area'> 
+    <a class='left-prev' id="prev-link" href="maxmimum_likelihood_worked_example.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Maximum Likelihood</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="tips_for_large_amounts_of_data.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Tips for Large Amounts of Data</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            
+        </div>
+    </div>
+    <footer class="footer">
+  <p>
+    
+      By Jacob Pilawa<br/>
+    
+        &copy; Copyright 2021.<br/>
+  </p>
+</footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+
+  </body>
+</html>
