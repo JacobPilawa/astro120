@@ -329,12 +329,40 @@
 y = \beta_0 x + \beta_1
 \]</div>
 <p>Assuming that both y and x are vectors with <span class="math notranslate nohighlight">\(n\)</span> elements, we can rewrite this equation in matrix form:</p>
-<p>\begin{array}{c}
-{\left[\begin{array}{c}Y_{1} \ Y_{2} \ \vdots \ Y_{n}\end{array}\right]=\left[\begin{array}{c}\beta_{0}+\beta_{1} X_{1} \ \beta_{0}+\beta_{1} X_{2} \ \vdots \ \beta_{0}+\beta_{1} X_{n}\end{array}\right]} \ \underbrace{\left[\begin{array}{c}Y_{1} \ Y_{2} \ \vdots \ Y_{n}\end{array}\right]}<em>{Y</em>{n \times 1}}=\underbrace{\left[\begin{array}{cc}1 &amp; X_{1} \ 1 &amp; X_{2} \ \vdots &amp; \ 1 &amp; X_{n}\end{array}\right]}<em>{X</em>{n \times 2}} \underbrace{\left[\begin{array}{c}\beta_{0} \ \beta_{1}\end{array}\right]}<em>{\beta</em>{2 \times 1}}
-\end{array}</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{bmatrix}
+Y_1 \\
+Y_2 \\
+\vdots \\
+Y_n 
+\end{bmatrix}  = \begin{bmatrix}
+\beta_0 + \beta_1 X_1 \\
+\beta_0 + \beta_1 X_2 \\
+\vdots \\
+\beta_0 + \beta_1 X_n 
+\end{bmatrix}
+\end{split}\]</div>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\underbrace{\begin{bmatrix}
+Y_1 \\
+Y_2 \\
+\vdots \\
+Y_n 
+\end{bmatrix}}_{Y_{n\times1}}  = \underbrace{\begin{bmatrix}
+1 &amp; X_1 \\
+1 &amp; X_2 \\
+\vdots &amp; \vdots \\
+1 &amp; X_n 
+\end{bmatrix}}_{X_{n\times2}} \underbrace{\begin{bmatrix}
+\beta_0 \\
+\beta_1 
+\end{bmatrix}}_{\beta_{2\times1}}
+\end{split}\]</div>
 <div class="math notranslate nohighlight">
 \[
-Y=X\beta
+Y = X \beta
 \]</div>
 <p>Here, I’ll simulate some data with <span class="math notranslate nohighlight">\(n=25\)</span>:</p>
 <div class="cell docutils container">
@@ -360,7 +388,7 @@ Y=X\beta
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x7fd5abec6510&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x7fe37733f490&gt;
 </pre></div>
 </div>
 <img alt="../_images/fitting_a_line_to_data_6_1.png" src="../_images/fitting_a_line_to_data_6_1.png" />
@@ -416,8 +444,8 @@ Y shape:  (25, 1)
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[0.32773   ],
-       [2.31826168]])
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[0.32544314],
+       [2.38931179]])
 </pre></div>
 </div>
 </div>
@@ -445,7 +473,7 @@ Y shape:  (25, 1)
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x7fd5acb7ea90&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x7fe377a4c810&gt;
 </pre></div>
 </div>
 <img alt="../_images/fitting_a_line_to_data_14_1.png" src="../_images/fitting_a_line_to_data_14_1.png" />
@@ -521,8 +549,8 @@ Y shape:  (25, 1)
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Weighted Least Squares:	  y = 1.0435x+0.1974
-Unweighted Least Squares: y = 1.0274x+0.2183
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Weighted Least Squares:	  y = 1.175x+0.0903
+Unweighted Least Squares: y = 1.1302x+0.103
 </pre></div>
 </div>
 </div>
