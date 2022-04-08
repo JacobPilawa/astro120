@@ -1,0 +1,19 @@
+# Table of contents
+# Learn more at https://jupyterbook.org/customize/toc.html
+
+format: jb-article
+root: intro
+options:
+   numbered:   False
+sections:
+- file: pages/good_and_bad_plotting_practices
+- file: pages/good_and_bad_coding_practices
+- file: pages/loops_and_parallelism
+- file: pages/matrix_operations_with_numpy
+- file: pages/fitting_a_line_to_data
+- file: pages/maxmimum_likelihood_worked_example
+- file: pages/reading_fits_files
+- file: pages/tips_for_large_amounts_of_data
+- file: pages/publication_graphics_and_errorbars
+- file: pages/making_rgb_images
+- file: pages/example_shifting
